@@ -2,3 +2,11 @@
     margin-top: 1rem;
     display: block;
 }
+
+.empty-list {
+    text-align: center;
+}
+
+mat-spinner {
+    margin: auto;
+}
