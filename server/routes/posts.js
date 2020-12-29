@@ -52,8 +52,17 @@ router.put('/:id', multer({ storage }).single('image'), async (req, res, next) =
 });
 
 router.get('/', async(req, res, next) => {
-    const posts = await Post.find();
-    res.status(200).json({ message: 'success', posts });
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const query = Post.find();
+    if (pageSize && currentPage) {
+        query.skip(pageSize * (currentPage - 1)).limit(pageSize);
+    }
+
+    const posts = await query;
+    const totalPosts = await Post.countDocuments();
+    
+    res.status(200).json({ message: 'success', posts, totalPosts });
 });
 
 router.get('/:id', async(req, res, next) => {
